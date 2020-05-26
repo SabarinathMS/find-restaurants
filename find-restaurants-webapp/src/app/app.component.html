@@ -1,1 +1,70 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+      <form #RestaurantForm="ngForm" (ngSubmit)="onCreateRestaurant(RestaurantForm.value)">
+        <div class="form-group">
+          <label for="title">Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="name"
+            required
+            ngModel
+            name="title"
+          />
+        </div>
+        <div class="form-group">
+          <label for="rating">Rating</label>
+          <input
+            type="text"
+            class="form-control"
+            id="rating"
+            required
+            ngModel
+            name="rating"
+          />
+        </div>
+        <div class="form-group">
+          <label for="type">Type</label>
+          <input
+            type="text"
+            class="form-control"
+            id="type"
+            required
+            ngModel
+            name="type"
+          />
+        </div>
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="!RestaurantForm.valid"
+        >
+          Add Restaurant
+        </button>
+      </form>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+      <button class="btn btn-primary" (click)="onFetchRestaurants()">
+        Fetch Restaurants
+      </button>
+      |
+      <button
+        class="btn btn-danger"
+        [disabled]="loadedRestaurants.length < 1"
+        (click)="onClearRestaurants()"
+      >
+        Clear Restaurants
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-md-6 col-md-offset-3">
+      <p>No Restaurants available!</p>
+    </div>
+  </div>
+</div>
 
