@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Restaurant } from './restaurant.model';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -36,9 +37,21 @@ export class AppComponent implements OnInit{
 
   private fetchRestaurants(){
     this.http
-    .get("http://localhost:8080/restaurants")
+    .get<{ [key: string]: Restaurant }>("http://localhost:8080/restaurants")
+    .pipe(
+      map(responseData => {
+        const restaurantsArray: Restaurant[] = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            restaurantsArray.push({ ...responseData[key], id: key });
+          }
+        }
+        return restaurantsArray;
+      })
+    )
     .subscribe( restaurants => {
         console.log(restaurants);
+        this.loadedRestaurants = restaurants;
       }
     );
   }
