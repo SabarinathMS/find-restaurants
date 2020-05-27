@@ -62,4 +62,9 @@ public class RestaurantController {
 	public void deleteRestaurant(@PathVariable Integer restaurantId) {
 		restaurantRepository.deleteById(restaurantId);
 	}
+	
+	@DeleteMapping
+	public void deleteAllRestaurant() {
+		restaurantRepository.deleteAll();
+	}
 }
