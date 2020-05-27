@@ -27,7 +27,7 @@ export class RestaurantsService {
   fetchRestaurants() {
     return this.http
       .get<{ [key: string]: Restaurant }>(
-        'http://localhost:8080/restaurantsa'
+        'http://localhost:8080/restaurants'
       )
       .pipe(
         map(responseData => {
