@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Restaurant } from './restaurant.model';
 import { map } from 'rxjs/operators';
 
+import { RestaurantsService } from './restaurants.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,26 +16,29 @@ export class AppComponent implements OnInit{
 
   loadedRestaurants:Restaurant[]  = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private restaurantsService: RestaurantsService) {}
 
   ngOnInit(){
     this.fetchRestaurants();
   }
   
   onCreateRestaurant(restaurantData:Restaurant){
-    this.http
-    .post("http://localhost:8080/restaurants", restaurantData)
-    .subscribe( responseData => {
-      console.log(responseData);
-      }
-    );
+    this.restaurantsService.createAndStoreRestaurant(restaurantData);
   }
 
   onFetchRestaurants(){
-    this.fetchRestaurants();
+    this.isFetching = true;
+    this.restaurantsService.fetchRestaurants().subscribe(
+      posts => {
+        this.isFetching = false;
+        this.loadedRestaurants = posts;
+      }
+      );
   }
   onClearRestaurants() {
-    // Send Http request
+    this.restaurantsService.deletePosts().subscribe(() => {
+      this.loadedRestaurants = [];
+    });
   }
 
   private fetchRestaurants(){
