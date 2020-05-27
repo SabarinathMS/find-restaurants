@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Restaurant } from './restaurant.model';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent implements OnInit{
   title = 'restaurantApplication';
 
-  loadedRestaurants  = [];
+  loadedRestaurants:Restaurant[]  = [];
 
   constructor(private http: HttpClient) {}
 
@@ -17,7 +18,7 @@ export class AppComponent implements OnInit{
     this.fetchRestaurants();
   }
   
-  onCreateRestaurant(restaurantData:{name:string, rating:string, type:string}){
+  onCreateRestaurant(restaurantData:Restaurant){
     this.http
     .post("http://localhost:8080/restaurants", restaurantData)
     .subscribe( responseData => {
