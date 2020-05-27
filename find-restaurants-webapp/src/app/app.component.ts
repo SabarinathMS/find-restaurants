@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Restaurant } from './restaurant.model';
 import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import { RestaurantsService } from './restaurants.service';
 
@@ -10,16 +11,20 @@ import { RestaurantsService } from './restaurants.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, OnDestroy{
   title = 'restaurantApplication';
   isFetching = false;
-
   loadedRestaurants:Restaurant[]  = [];
+  error = null;
+  private errorSub: Subscription;
 
   constructor(private http: HttpClient, private restaurantsService: RestaurantsService) {}
 
   ngOnInit(){
-    this.fetchRestaurants();
+      this.errorSub = this.restaurantsService.error.subscribe(errorMessage => {
+      this.error = errorMessage;
+    });
+    this.onFetchRestaurants();
   }
   
   onCreateRestaurant(restaurantData:Restaurant){
@@ -32,6 +37,10 @@ export class AppComponent implements OnInit{
       posts => {
         this.isFetching = false;
         this.loadedRestaurants = posts;
+      },
+      error => {
+        this.error = error.message;
+        console.log(error);
       }
       );
   }
@@ -62,5 +71,9 @@ export class AppComponent implements OnInit{
         this.loadedRestaurants = restaurants;
       }
     );
+  }
+
+  ngOnDestroy() {
+    this.errorSub.unsubscribe();
   }
 }

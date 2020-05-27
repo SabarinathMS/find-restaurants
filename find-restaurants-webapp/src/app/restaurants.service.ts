@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
+import { Subject, throwError } from 'rxjs';
 
 import { Restaurant } from './restaurant.model';
 
 @Injectable({ providedIn: 'root' })
 export class RestaurantsService {
-  
+  error = new Subject<string>();
+
   constructor(private http: HttpClient) {}
 
   createAndStoreRestaurant(restaurant:Restaurant) {
@@ -15,6 +17,9 @@ export class RestaurantsService {
         'http://localhost:8080/restaurants', restaurant )
       .subscribe(   responseData => {
           console.log(responseData);
+        },
+        error => {
+          this.error.next(error.message);
         }
       );
   }
@@ -22,7 +27,7 @@ export class RestaurantsService {
   fetchRestaurants() {
     return this.http
       .get<{ [key: string]: Restaurant }>(
-        'http://localhost:8080/restaurants'
+        'http://localhost:8080/restaurantsa'
       )
       .pipe(
         map(responseData => {
@@ -33,6 +38,10 @@ export class RestaurantsService {
             }
           }
           return postsArray;
+        }),
+        catchError(errorRes => {
+          // Send to analytics server
+          return throwError(errorRes);
         })
       );
   }
