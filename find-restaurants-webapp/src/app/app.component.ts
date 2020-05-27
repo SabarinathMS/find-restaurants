@@ -10,6 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class AppComponent implements OnInit{
   title = 'restaurantApplication';
+  isFetching = false;
 
   loadedRestaurants:Restaurant[]  = [];
 
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit{
   }
 
   private fetchRestaurants(){
+    this.isFetching = true;
     this.http
     .get<{ [key: string]: Restaurant }>("http://localhost:8080/restaurants")
     .pipe(
@@ -51,6 +53,7 @@ export class AppComponent implements OnInit{
     )
     .subscribe( restaurants => {
         console.log(restaurants);
+        this.isFetching = false;
         this.loadedRestaurants = restaurants;
       }
     );
