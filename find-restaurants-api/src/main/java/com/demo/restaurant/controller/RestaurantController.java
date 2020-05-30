@@ -1,8 +1,7 @@
-package com.demo.restaurant;
+package com.demo.restaurant.controller;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,58 +12,44 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
+import com.demo.restaurant.model.Restaurant;
+import com.demo.restaurant.rest.responses.RestaurantResponse;
+import com.demo.restaurant.service.RestaurantService;
 
 @RestController
 @RequestMapping("restaurants") // http://localhost:8080/restaurants
 public class RestaurantController {
 
 	@Autowired
-	private RestaurantRepository restaurantRepository;
+	RestaurantService restaurantService;
 	
 	@GetMapping
 	public List<Restaurant> getAllRestaurant() {
-		return restaurantRepository.findAll();
+		return restaurantService.getAllRestaurant();
 	}
 	
 	@GetMapping(path="/{restaurantId}")
 	public RestaurantResponse getRestaurant(@PathVariable Integer restaurantId) {
-		Restaurant restaurant =restaurantRepository.getOne(restaurantId);
-		if(restaurant == null) {
-			throw new UserNotFoundException("id-"+restaurantId);
-		}
-		RestaurantResponse restaurantResponse = new RestaurantResponse();
-		BeanUtils.copyProperties(restaurant, restaurantResponse);
-		return restaurantResponse;
+		return restaurantService.getRestaurant(restaurantId);
 	}
 	
 	@PostMapping
 	public RestaurantResponse createRestaurant(@RequestBody Restaurant restaurant) {
-		RestaurantResponse restaurantResponse = new RestaurantResponse();
-		restaurant = restaurantRepository.save(restaurant);
-		BeanUtils.copyProperties(restaurant, restaurantResponse);
-		return restaurantResponse;
+		return restaurantService.createRestaurant(restaurant);
 	}
 	
 	@PutMapping
 	public RestaurantResponse updateRestaurant(@RequestBody Restaurant restaurant) {
-		Restaurant restaurantresponse = restaurantRepository.getOne(restaurant.getId()); 
-		if(restaurantresponse == null) {
-			throw new UserNotFoundException("id = "+restaurant.getId());
-		}
-		restaurant = restaurantRepository.save(restaurant);
-		RestaurantResponse restaurantResponse = new RestaurantResponse();
-		BeanUtils.copyProperties(restaurant, restaurantResponse);
-		return restaurantResponse;
+		return restaurantService.updateRestaurant(restaurant);
 	}
 	
 	@DeleteMapping(path="/{restaurantId}")
 	public void deleteRestaurant(@PathVariable Integer restaurantId) {
-		restaurantRepository.deleteById(restaurantId);
+		restaurantService.deleteRestaurant(restaurantId);
 	}
 	
 	@DeleteMapping
 	public void deleteAllRestaurant() {
-		restaurantRepository.deleteAll();
+		restaurantService.deleteAllRestaurant();
 	}
 }

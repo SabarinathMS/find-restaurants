@@ -1,13 +1,6 @@
-package com.demo.restaurant;
+package com.demo.restaurant.rest.responses;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@Entity
-public class Restaurant {
-	@Id
-	@GeneratedValue
+public class RestaurantResponse {
 	private Integer id;
 	private String name;
 	private String type;
@@ -36,11 +29,5 @@ public class Restaurant {
 	public void setRating(String rating) {
 		this.rating = rating;
 	}
-	@Override
-	public String toString() {
-		return "Restaurant [id=" + id + ", name=" + name + ", type=" + type + ", rating=" + rating + "]";
-	}
-	
-	
 	
 }

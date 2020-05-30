@@ -1,4 +1,4 @@
-package com.demo.restaurant;
+package com.demo.restaurant.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

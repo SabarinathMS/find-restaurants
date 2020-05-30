@@ -1,13 +1,6 @@
-package com.demo.restaurant;
+package com.demo.restaurant.rest.responses;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@Entity
-public class Address {
-	@Id
-	@GeneratedValue
+public class AddressResponse {
 	private Integer id;
 	private String addressLine1;
 	private String addressLine2;
@@ -42,11 +35,6 @@ public class Address {
 	}
 	public void setLatitude(String latitude) {
 		this.latitude = latitude;
-	}
-	@Override
-	public String toString() {
-		return "Address [id=" + id + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2
-				+ ", longitude=" + longitude + ", latitude=" + latitude + "]";
 	}
 	
 }
