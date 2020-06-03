@@ -1,8 +1,11 @@
 package com.demo.restaurant.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Restaurant {
@@ -11,7 +14,17 @@ public class Restaurant {
 	private Integer id;
 	private String name;
 	private String type;
-	private String rating;
+	private Integer phone;
+	private String website;
+	private String imageURL;
+	@OneToMany(mappedBy="restaurant")
+	private List<Address> address;
+	
+	
+	public Restaurant() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -30,17 +43,29 @@ public class Restaurant {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getRating() {
-		return rating;
+	public Integer getPhone() {
+		return phone;
 	}
-	public void setRating(String rating) {
-		this.rating = rating;
+	public void setPhone(Integer phone) {
+		this.phone = phone;
 	}
-	@Override
-	public String toString() {
-		return "Restaurant [id=" + id + ", name=" + name + ", type=" + type + ", rating=" + rating + "]";
+	public String getWebsite() {
+		return website;
 	}
-	
-	
-	
+	public void setWebsite(String website) {
+		this.website = website;
+	}
+	public String getImageURL() {
+		return imageURL;
+	}
+	public void setImageURL(String imageURL) {
+		this.imageURL = imageURL;
+	}
+	public List<Address> getAddress() {
+		return address;
+	}
+	public void setAddress(List<Address> address) {
+		this.address = address;
+	}
+
 }
