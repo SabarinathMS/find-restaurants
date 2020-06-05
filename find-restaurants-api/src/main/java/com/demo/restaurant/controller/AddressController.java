@@ -2,7 +2,6 @@ package com.demo.restaurant.controller;
 
 import java.util.List;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,18 +12,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.demo.restaurant.exception.UserNotFoundException;
 import com.demo.restaurant.model.Address;
+import com.demo.restaurant.model.Restaurant;
 import com.demo.restaurant.repository.AddressRepository;
 import com.demo.restaurant.rest.responses.AddressResponse;
+import com.demo.restaurant.rest.responses.RestaurantResponse;
 import com.demo.restaurant.service.AddressService;
+import com.demo.restaurant.service.RestaurantService;
 
 @RestController
-@RequestMapping("address") // http://localhost:8080/restaurents
+@RequestMapping("address") // http://localhost:8080/address
 public class AddressController {
 
 	@Autowired
 	private AddressService addressService;
+	
+	@Autowired
+	private RestaurantService restaurantService;
 	
 	@GetMapping
 	public List<Address> getAllAddress() {
@@ -36,8 +40,10 @@ public class AddressController {
 		return addressService.getAddress(addressId);
 	}
 	
-	@PostMapping
-	public AddressResponse createAddress(@RequestBody Address address) {
+	@PostMapping(path="/{restaurantId}/address")
+	public AddressResponse createAddress(@PathVariable Integer restaurantId, @RequestBody Address address) {
+		RestaurantResponse restaurant = restaurantService.getRestaurant(restaurantId);
+		address.setRestaurant(restaurant);
 		return addressService.createAddress(address);
 	}
 	
