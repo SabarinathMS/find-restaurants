@@ -1,5 +1,6 @@
 package com.demo.restaurant.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -16,6 +17,9 @@ public class AddressServiceImpl implements AddressService{
 
 	@Autowired
 	AddressDao addressDao;
+	
+	@Autowired
+	RestaurantService restaurantService;
 	
 	@Override
 	public AddressResponse createAddress(Address address) {
@@ -59,8 +63,29 @@ public class AddressServiceImpl implements AddressService{
 	}
 
 	@Override
-	public List<Address> getAllAddress() {
-		return addressDao.findAllAddress();
+	public List<AddressResponse> getAllAddress(String lat, String lng) {
+		List<Address> addressList =  addressDao.findAllAddress(Double.parseDouble(lat), Double.parseDouble(lng));
+		List<AddressResponse> addressResponses = new ArrayList<>();
+		for(Address add: addressList) {
+			AddressResponse addressResponse = new AddressResponse();
+			BeanUtils.copyProperties(add, addressResponse);
+			addressResponse.setRestaurantDetails(restaurantService.getRestaurant(add.getRestaurant().getId()));
+			addressResponses.add(addressResponse);
+		}
+		return addressResponses;
 	}
 
+	@Override
+	public List<AddressResponse> getAllAddress() {
+		List<Address> addressList =  addressDao.findAllAddress();
+		List<AddressResponse> addressResponses = new ArrayList<>();
+		for(Address add: addressList) {
+			AddressResponse addressResponse = new AddressResponse();
+			BeanUtils.copyProperties(add, addressResponse);
+			addressResponse.setRestaurantDetails(restaurantService.getRestaurant(add.getRestaurant().getId()));
+			addressResponses.add(addressResponse);
+		}
+		return addressResponses;
+	}
 }
+

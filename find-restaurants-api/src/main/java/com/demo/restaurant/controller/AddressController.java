@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.demo.restaurant.model.Address;
-import com.demo.restaurant.model.Restaurant;
-import com.demo.restaurant.repository.AddressRepository;
 import com.demo.restaurant.rest.responses.AddressResponse;
 import com.demo.restaurant.rest.responses.RestaurantResponse;
 import com.demo.restaurant.service.AddressService;
@@ -31,8 +30,13 @@ public class AddressController {
 	private RestaurantService restaurantService;
 	
 	@GetMapping
-	public List<Address> getAllAddress() {
+	public List<AddressResponse> getAddress() {
 		return addressService.getAllAddress();
+	}
+	
+	@GetMapping(path="/findRestaurant")
+	public List<AddressResponse> getAllAddressByLatLng(@RequestParam String lat, @RequestParam String lng) {
+		return addressService.getAllAddress(lat,lng);
 	}
 	
 	@GetMapping(path="/{addressId}")
@@ -61,4 +65,6 @@ public class AddressController {
 	public void deleteAllAddress(@PathVariable Integer addressId) {
 		addressService.deleteAllAddress();
 	}
+	
+	
 }

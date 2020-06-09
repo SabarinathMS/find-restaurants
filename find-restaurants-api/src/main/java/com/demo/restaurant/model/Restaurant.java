@@ -14,7 +14,7 @@ public class Restaurant {
 	private Integer id;
 	private String name;
 	private String type;
-	private Integer phone;
+	private Double phone;
 	private String website;
 	private String imageURL;
 	@OneToMany(mappedBy="restaurant")
@@ -43,10 +43,10 @@ public class Restaurant {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Integer getPhone() {
+	public Double getPhone() {
 		return phone;
 	}
-	public void setPhone(Integer phone) {
+	public void setPhone(Double phone) {
 		this.phone = phone;
 	}
 	public String getWebsite() {

@@ -15,6 +15,8 @@ public interface AddressService {
 	void deleteAllAddress();
 
 	AddressResponse getAddress(Integer AddressId);
+	
+	List<AddressResponse> getAllAddress(String lat, String lng );
 
-	List<Address> getAllAddress(); 
+	List<AddressResponse> getAllAddress(); 
 }

@@ -18,8 +18,6 @@ public class Address {
 	private String city;
 	private String state;
 	private String country;
-	private String stateName;
-	private String countryName;
 	private String longitude;
 	private String latitude;
 
@@ -73,22 +71,6 @@ public class Address {
 
 	public void setCountry(String country) {
 		this.country = country;
-	}
-
-	public String getStateName() {
-		return stateName;
-	}
-
-	public void setStateName(String stateName) {
-		this.stateName = stateName;
-	}
-
-	public String getCountryName() {
-		return countryName;
-	}
-
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
 	}
 
 	public String getLongitude() {
